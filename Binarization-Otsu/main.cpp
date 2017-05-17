@@ -111,20 +111,19 @@ int main(int argc, char** argv)
         }      
 
         cv::Mat image;
-        image = cv::imread(name + ".jpg", CV_LOAD_IMAGE_COLOR);
-
         clock_t start, end;
+        image = cv::imread(name + ".jpg", CV_LOAD_IMAGE_COLOR);
+        
         
         start = clock();
         cv::Mat binarizationImage = OsuBinarization(image);
-        end = clock();
-
-        timeSum += double(end - start) / (image.rows * image.cols);
+        end = clock();        
 
         imwrite(name + ".bmp", binarizationImage);        
+        timeSum += double(end - start) * 1000000 / CLOCKS_PER_SEC / (image.rows * image.cols);
     }
 
-    std::cout << "average time: " << timeSum / countImg << '\n';
+    std::cout << "average time: " << timeSum  / countImg << '\n';
 
 #else    
     if (argc != 3)
